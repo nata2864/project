@@ -9,7 +9,7 @@ const server = http.createServer((req, res) => {
   const params = url.searchParams;
   const keys = [...params.keys()];
 
-  if (params.has("hello") && keys.length === 1) {
+  if (params.has("hello") ) {
     const name = params.get("hello");
 
     if (!name || name.trim() === "") {
@@ -22,7 +22,7 @@ const server = http.createServer((req, res) => {
       res.end(`Hello, ${name}.`);
     }
 
-  } else if (params.has("users") && keys.length === 1) {
+  } else if (params.has("users")) {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.end(getUsers());
