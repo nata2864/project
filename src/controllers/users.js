@@ -14,8 +14,8 @@ const getUsers = (req, res) => {
 
 // Получим пользователя по ID
 const getUser = (req, res) => {
-    const { user_id } = req.params;
-    User.findById(user_id)
+    const { id } = req.params;
+    User.findById(id)
         .then(user => {
             res.status(200).send(user);
         })
@@ -38,9 +38,9 @@ const createUser = (req, res) => {
 
 // Обновляем пользователя
 const updateUser = (req, res) => {
-    const { user_id } = req.params;
+    const { id } = req.params;
     const data = req.body;
-    User.findByIdAndUpdate(user_id, data, { new: true, runValidators: true })
+    User.findByIdAndUpdate(id, data, { new: true, runValidators: true })
         .then(user => {
             res.status(200).send(user);
         })
@@ -51,8 +51,8 @@ const updateUser = (req, res) => {
 
 // Удаляем пользователя
 const deleteUser = (req, res) => {
-    const { user_id } = req.params;
-    User.findByIdAndDelete(user_id)
+    const { id } = req.params;
+    User.findByIdAndDelete(id)
         .then(user => {
             res.status(200).send("Done");
         })
