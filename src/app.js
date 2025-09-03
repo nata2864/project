@@ -8,10 +8,13 @@ const loger = require("./middleware/logerUrl");
 const bodyParser = require("body-parser");
 
 dotenv.config();
-const { PORT = 3000, API_URL = "http://localhost" } = process.env;
+const { PORT, 
+  API_URL,
+  MONGO_URL,
+ } = process.env;
 
 mongoose
-  .connect("mongodb+srv://2864tasha:secret123@cluster0.s8ntziv.mongodb.net/", {
+  .connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

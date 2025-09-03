@@ -61,29 +61,7 @@ const deleteUser = (req, res) => {
         });
 }
 
-// const getUsers = (req, res) => {
-//   res.status(200).send("All users");
-// };
 
-// const getUser = (req, res) => {
-//   const {id} = req.params;
-//   res.status(200).send(`User with id: ${id}`);
-// };
-
-// const createUser = (req, res) => {
-//    const { name } = req.body; 
-//   res.status(201).send(`User created: ${name}`);
-// };
-
-// const updateUser = (req, res) => {
-//   const { id } = req.params;
-//   res.status(200).send(`User with id: ${id} updated`);
-// };
-
-// const deleteUser = (req, res) => {
-//   const { id } = req.params;
-//   res.status(200).send(`User with id: ${id} deleted`);
-// };
 
 module.exports = {
   getUsers,
