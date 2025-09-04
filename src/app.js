@@ -1,43 +1,36 @@
-const http = require("http");
-const getUsers = require("./modules/users");
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const userRouter = require("./routers/users");
+const bookRouter = require("./routers/books");
+const mongoose = require("mongoose");
+const loger = require("./middleware/logerUrl");
+const bodyParser = require("body-parser");
 
-const hostname = "127.0.0.1";
-const port = 3003;
+dotenv.config();
+const { PORT, 
+  API_URL,
+  MONGO_URL,
+ } = process.env;
 
-const server = http.createServer((req, res) => {
-  const url = new URL(req.url, `http://${hostname}:${port}`);
-  const params = url.searchParams;
-  const keys = [...params.keys()];
+mongoose
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB Atlas connected"))
+  .catch((err) => console.error("❌ Connection error:", err));
 
-  if (params.has("hello") && keys.length === 1) {
-    const name = params.get("hello");
+const app = express();
 
-    if (!name || name.trim() === "") {
-      res.statusCode = 400;
-      res.setHeader("Content-Type", "text/plain");
-      res.end("Enter a name");
-    } else {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "text/plain");
-      res.end(`Hello, ${name}.`);
-    }
+app.use(bodyParser.json());
 
-  } else if (params.has("users") && keys.length === 1) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(getUsers());
+app.use(loger);
+app.use(bookRouter);
+app.use(userRouter);
 
-  } else if (keys.length === 0) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Hello, World!");
-  } else {
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "text/plain");
-    res.end();
-  }
-});
+app.use(cors);
 
-server.listen(port, hostname, () => {
-  console.log(`Сервер запущен по адресу http://${hostname}:${port}/`);
+app.listen(PORT, () => {
+  console.log(`Сервер запущен: ${API_URL}:${PORT}`);
 });
